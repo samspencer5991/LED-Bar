@@ -30,7 +30,7 @@ void ledBar_Update(LEDBar *ledBar)
 	}
 	else
 	{
-		ledPos = ledBar->firstLedIndex - ringPos;
+		ledPos = ledBar->firstLedIndex + (ledBar->numLeds-1) - ringPos;
 		ledEnd = ledBar->firstLedIndex;
 	}
 
@@ -39,8 +39,16 @@ void ledBar_Update(LEDBar *ledBar)
 	{
 		if (ledBar->ledMode == PotLedDot)
 		{
-			for (uint8_t j = ledBar->firstLedIndex; j <= ledEnd; j++)
-				leds[j] = 0;
+			if(ledBar->dataDirection == 0)
+			{
+				for (uint8_t j = ledBar->firstLedIndex; j <= ledEnd; j++)
+					leds[j] = 0;
+			}
+			else
+			{
+				for (uint8_t j = ledBar->firstLedIndex; j <= ledBar->firstLedIndex + ledBar->numLeds; j++)
+					leds[j] = 0;
+			}
 
 			leds[ledPos] = ledBar->colours[0];
 		}
@@ -66,10 +74,21 @@ void ledBar_Update(LEDBar *ledBar)
 		}
 		else if (ledBar->ledMode == PotLedFillGradient)
 		{
-			fill_gradient(leds, ledBar->firstLedIndex, ledBar->colours[0],
-							  ledEnd, ledBar->colours[1], SHORTEST_HUES);
-			for (uint8_t j = ledPos + 1; j <= ledEnd; j++)
-				leds[j] = 0;
+			
+			if(ledBar->dataDirection == 0)
+			{
+				fill_gradient(leds, ledBar->firstLedIndex, ledBar->colours[0],
+					ledEnd, ledBar->colours[1], SHORTEST_HUES);
+				for (uint8_t j = ledPos + 1; j <= ledEnd; j++)
+					leds[j] = 0;
+			}
+			else
+			{
+				fill_gradient(leds, ledBar->firstLedIndex, ledBar->colours[1],
+					ledBar->firstLedIndex + ledBar->numLeds-1, ledBar->colours[0], SHORTEST_HUES);
+				for(uint8_t j = ledBar->firstLedIndex; j <= ledPos-1; j++)
+					leds[j] = 0;
+			}
 
 		}
 	}

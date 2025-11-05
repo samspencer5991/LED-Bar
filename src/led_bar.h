@@ -30,15 +30,15 @@ typedef enum
 
 typedef struct
 {
-    PotMode mode;						// Control UI mode
-    PotWrapStyle wrap;				// Control wrap style 
-    PotLedMode ledMode;				// Control LED UI mode
-    CHSV colours[2];					// Ring display colours
-    uint16_t value;					// Current value
-	 uint16_t numLeds;				// Number of LEDs in the bar
-	 uint16_t firstLedIndex;		// Position of the first LED in the bar
-	 uint8_t dataDirection;			// 0 = bottom to top or CW, 1 = top to bottom or CCW	
-	 uint8_t interFade;				// Interpolation fade on or off		
+    PotMode mode;                                       // Control UI mode
+    PotWrapStyle wrap;                                  // Control wrap style 
+    PotLedMode ledMode;                                 // Control LED UI mode
+    CHSV colours[2];                                    // Ring display colours
+    uint16_t value;                                     // Current value
+	 uint16_t numLeds;						// Number of LEDs in the bar
+	 uint16_t firstLedIndex;				// Position of the first LED in the bar
+	 uint8_t dataDirection;					// 0 = bottom to top or CW, 1 = top to bottom or CCW	
+	 uint8_t interFade;						// Interpolation fade on or off		
 } LEDBar;
 
 // Public function prototypes
