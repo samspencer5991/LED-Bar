@@ -1,5 +1,5 @@
-#ifndef INTERFACE_H
-#define INTERFACE_H
+#ifndef LED_BAR_H
+#define LED_BAR_H
 
 #include <stdint.h>
 #include <FastLED.h>
@@ -53,4 +53,4 @@ extern CHSV csvNeonPink;
 extern CHSV csvNeonSeafoam;
 extern CHSV csvNeonRed;
 
-#endif /* INTERFACE_H */
+#endif /* LED_BAR_H */

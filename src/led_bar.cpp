@@ -141,26 +141,61 @@ void ledBar_Update(LEDBar *ledBar)
 		}
 		else if (ledBar->ledMode == PotLedFillGradient)
 		{
-			fill_gradient(leds, ledBar->firstLedIndex, ledBar->colours[0],
-							  ledEnd, ledBar->colours[1], SHORTEST_HUES);
-			if (ringPos <= 10)
+			// CW direction
+			if(ledBar->dataDirection == 0)
 			{
-				for (uint8_t j = ledBar->firstLedIndex; j < ledPos; j++)
-					leds[j] = 0;
+				fill_gradient(leds, ledBar->firstLedIndex, ledBar->colours[0],
+								ledEnd, ledBar->colours[1], SHORTEST_HUES);
+				// Current position in the lower half
+				if (ringPos < (ledBar->numLeds/2 - 1))
+				{
+					// Turn off LEDs below current position
+					for (uint8_t j = ledBar->firstLedIndex; j < ledPos; j++)
+						leds[j] = 0;
 
-				for (uint8_t j = ledBar->firstLedIndex + 11; j <= ledEnd; j++)
-					leds[j] = 0;
+					// Turn off LEDs above centre
+					for (uint8_t j = ledBar->firstLedIndex + 11; j <= ledEnd; j++)
+						leds[j] = 0;
+				}
+				// Current position in the upper half
+				else if (ringPos > (ledBar->numLeds/2 - 1))
+				{
+					// Turn off LEDs below centre
+					for (uint8_t j = ledBar->firstLedIndex; j < ledBar->firstLedIndex + 10; j++)
+						leds[j] = 0;
 
+					// Turn off LEDs above current position
+					for (uint8_t j = ledPos + 1; j <= ledEnd; j++)
+						leds[j] = 0;
+				}
 			}
-			else if (ringPos > 10)
+			// CCW direction
+			else
 			{
+				fill_gradient(leds, ledBar->firstLedIndex, ledBar->colours[1],
+					ledBar->firstLedIndex + ledBar->numLeds-1, ledBar->colours[0], SHORTEST_HUES);
+				// Current position in the lower half
+				if (ringPos <= (ledBar->numLeds/2 - 1))
+				{
+					// Turn off LEDs below current position
+					for (uint8_t j = (ledBar->firstLedIndex + ledBar->numLeds)-1; j > ledPos; j--)
+						leds[j] = 0;
 
-				for (uint8_t j = ledPos + 1; j <= ledEnd; j++)
-					leds[j] = 0;
+					// Turn off LEDs above centre
+					for (uint8_t j = ledBar->firstLedIndex; j <= ledBar->firstLedIndex + (ledBar->numLeds/2 - 1); j++)
+						leds[j] = 0;
+				}
+				// Current position in the upper half
+				else if (ringPos > (ledBar->numLeds/2 - 1))
+				{
+					// Turn off LEDs below centre
+					for (uint8_t j = ledBar->firstLedIndex + ledBar->numLeds - 1; j > ledBar->firstLedIndex + (ledBar->numLeds/2); j--)
+						leds[j] = 0;
 
-				for (uint8_t j = ledBar->firstLedIndex; j < ledBar->firstLedIndex + 10; j++)
-					leds[j] = 0;
-
+					// Turn off LEDs above current position
+					for (uint8_t j = ledBar->firstLedIndex; j < ledPos + 1; j++)
+						leds[j] = 0;
+				}
 			}
 		}
 	}
