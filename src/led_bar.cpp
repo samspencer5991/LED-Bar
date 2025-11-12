@@ -5,16 +5,6 @@
 
 #define POT_WRAP_THRESHOLD 50
 
-// CRGB leds[NUM_LEDS];
-
-// HSV Colours
-// Neon
-CHSV csvNeonLightBlue = CHSV(130, 240, 255);
-CHSV csvNeonLime = CHSV(111, 235, 255);
-CHSV csvNeonPink = CHSV(240, 204, 250);
-CHSV csvNeonSeafoam = CHSV(107, 247, 250);
-CHSV csvNeonRed = CHSV(2, 196, 255);
-
 int controlFocusToggle = -1;
 
 //------------------ Input Aquisition and Processing ----------------------
@@ -213,6 +203,7 @@ void ledBar_Update(LEDBar* ledBar)
 			ledBar->ledArrayPtr[ringPos] = currentLedColour;
 		}
 	}
+#ifdef SERIAL_PRINT_LED_BAR
 	if (ledBar->value != valueUpdate)
 	{
 		valueUpdate = ledBar->value;
@@ -220,6 +211,7 @@ void ledBar_Update(LEDBar* ledBar)
 		sprintf(str, "Ring Pos: %d,  Value: %d  Segment Size: %d,  PosInSeg: %d,  FadeAmt: %d\r\n", ringPos, ledBar->value, segmentSize, positionInSegment, fadeAmount);
 		Serial.print(str);
 	}
+#endif
 
 	// Map the virtual ledArrayPtr to the actual leds[] array
 	for (uint16_t i = 0; i < ledBar->numLeds; i++)

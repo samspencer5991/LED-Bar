@@ -4,6 +4,7 @@
 #include <stdint.h>
 #include <FastLED.h>
 #include <Arduino.h>
+#include <led_bar_colours.h>
 
 extern CRGB leds[];
 
